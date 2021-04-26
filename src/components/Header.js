@@ -28,11 +28,11 @@ class Header extends Component {
                     <div id="app-logo" className="brand-logo">PMTool</div>
                     <ul id="nav-mobile" className="right hide-on-med-and-down">
                         {this.isLoggedIn() ?
-                            <div><li><Link to="/logout" onClick={this.onLogoutClick}>Logout</Link></li>
-                                <li><Link to="/dashboard">Dashboard</Link></li>
-                                <li><Link to="/tasks/db">TaskDB</Link></li>
-                                <li><Link to="/settings">Settings</Link></li></div> :
-                            <div><li><Link to="/login">Login</Link></li> <li><Link to="/signup">Sign Up</Link></li></div>
+                            <div><li><Link to="/logout" id="logout" onClick={this.onLogoutClick}>Logout</Link></li>
+                                <li><Link to="/dashboard" id="dashboard" >Dashboard</Link></li>
+                                <li><Link to="/tasks/db" id="task_db" >TaskDB</Link></li>
+                                <li><Link to="/settings" id="settings" >Settings</Link></li></div> :
+                            <div><li><Link to="/login" id="login" >Login</Link></li> <li><Link to="/signup" id="signup">Sign Up</Link></li></div>
                         }
                     </ul>
                 </div>
