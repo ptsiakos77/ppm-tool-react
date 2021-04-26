@@ -39,13 +39,13 @@ class TaskList extends Component {
 
     componentDidMount() {
         const projectId = this.props.history.location.pathname.split('/')[2]
-        this.props.getTasks(projectId)
+        this.props.getTasks(projectId, this.props.history)
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.updatedTask) {
             const projectId = this.props.history.location.pathname.split('/')[2]
-            this.props.getTasks(projectId)
+            this.props.getTasks(projectId, this.props.history)
         }
     }
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { authHeaders } from '../helpers/securityUtils'
+import { authHeaders, handleForbidden } from '../helpers/securityUtils'
 
 const getProjects = () => async dispatch => {
     const res = await axios.get('/api/projects', authHeaders)
@@ -10,13 +10,17 @@ const getProjects = () => async dispatch => {
     })
 }
 
-const getProject = (projectId) => async dispatch => {
-    const res = await axios.get(`/api/projects/${projectId}`, authHeaders)
-    const project = res.data.project
-    dispatch({
-        type: "GET_PROJECT",
-        payload: project
-    })
+const getProject = (projectId, history) => async dispatch => {
+    try {
+        const res = await axios.get(`/api/projects/${projectId}`, authHeaders)
+        const project = res.data.project
+        dispatch({
+            type: "GET_PROJECT",
+            payload: project
+        })
+    } catch(err) {
+        handleForbidden(err.response, history) //Not ideal solution for centralized handling - TBR
+    }
 }
 
 const createProject = (project, history) => async dispatch => {
@@ -58,4 +62,4 @@ const deleteProject = (projectId) => async dispatch => {
     })
 }
 
-export { createProject, getProjects, getProject, updateProject, deleteProject }    
+export { createProject, getProjects, getProject, updateProject, deleteProject }

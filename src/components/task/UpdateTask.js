@@ -102,7 +102,7 @@ class UpdateTask extends Component {
         // eslint-disable-next-line no-undef
         M.FormSelect.init(elems)
         const taskId = this.props.history.location.pathname.split('/')[2]
-        this.props.getTask(taskId)
+        this.props.getTask(taskId, this.props.history)
         this.props.resetErrors()
     }
 

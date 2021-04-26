@@ -9,7 +9,13 @@ const getJWTToken = () => {
 
 const clearJWTToken = () => {
     localStorage.removeItem('jwtToken')
-    delete authHeaders.headers.Authorization 
+    delete authHeaders.headers.Authorization
+}
+
+const handleForbidden = (res, history) => {
+    if(res.status === 403) {
+        history.push("/dashboard")
+    }
 }
 
 const authHeaders = {
@@ -22,5 +28,6 @@ export {
     setJWTToken,
     getJWTToken,
     clearJWTToken,
+    handleForbidden,
     authHeaders
 }

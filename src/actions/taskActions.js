@@ -1,23 +1,32 @@
 import axios from 'axios'
-import { authHeaders } from '../helpers/securityUtils'
+import { authHeaders, handleForbidden } from '../helpers/securityUtils'
 import fileDownload from 'js-file-download';
 
-const getTasks = (projectId) => async dispatch => {
-    const res = await axios.get(`/api/projects/${projectId}/tasks`, authHeaders)
-    const tasks = res.data.tasks
-    dispatch({
-        type: "GET_TASKS",
-        payload: tasks
-    })
+const getTasks = (projectId, history) => async dispatch => {
+    try {
+        const res = await axios.get(`/api/projects/${projectId}/tasks`, authHeaders)
+        const tasks = res.data.tasks
+        dispatch({
+            type: "GET_TASKS",
+            payload: tasks
+        })
+    } catch(err) {
+        handleForbidden(err.response, history) //Not ideal solution for centralized handling - TBR
+    }
 }
 
-const getTask = (taskId) => async dispatch => {
-    const res = await axios.get(`/api/tasks/${taskId}`, authHeaders)
-    const task = res.data.task
-    dispatch({
-        type: "GET_TASK",
-        payload: task
-    })
+const getTask = (taskId, history) => async dispatch => {
+    try{
+        const res = await axios.get(`/api/tasks/${taskId}`, authHeaders)
+        const task = res.data.task
+        dispatch({
+            type: "GET_TASK",
+            payload: task
+        })
+    } catch(err) {
+        handleForbidden(err.response, history) //Not ideal solution for centralized handling - TBR
+    }
+
 }
 
 const downloadAttachment = (fileName, key) => {

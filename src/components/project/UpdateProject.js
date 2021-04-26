@@ -31,8 +31,8 @@ class UpdateProject extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { name, description } = nextProps.project
-        if (!nextProps.errors.name && !nextProps.errors.description) {
+        const { name, description } = nextProps?.project
+        if (!nextProps?.errors?.name && !nextProps?.errors?.description) {
             this.setState({
                 name, description
             })
@@ -41,7 +41,7 @@ class UpdateProject extends Component {
 
     componentDidMount() {
         const projectId = this.props.history.location.pathname.split('/')[2]
-        this.props.getProject(projectId)
+        this.props.getProject(projectId, this.props.history)
         this.props.resetErrors()
     }
 
