@@ -1,6 +1,6 @@
 import './App.css';
 import Header from "./components/Header";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Landing from './components/Landing';
 import Login from './components/user/Login';
 import Signup from './components/user/Signup';
@@ -14,6 +14,18 @@ import UpdateTask from './components/task/UpdateTask';
 import TaskDB from './components/task/TaskDB'
 import Settings from './components/user/Settings'
 import EnterQRCode from './components/user/EnterQRCode';
+import { getJWTToken } from './helpers/securityUtils'
+
+const ProtectedRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+        getJWTToken() !== null
+            ? <Component {...props} />
+            : <Redirect to={{
+              pathname: '/login',
+              state: { from: props.location }
+            }} />
+    )} />
+);
 
 function App() {
   return (
@@ -25,15 +37,15 @@ function App() {
         <Route exact path="/enterqrcode" component={EnterQRCode}></Route>
         <Route exact path="/logout" component={Landing}></Route>
         <Route exact path="/signup" component={Signup}></Route>
-        <Route exact path="/settings" component={Settings}></Route>
+        <ProtectedRoute exact path="/settings" component={Settings}></ProtectedRoute>
         <Route exact path="/verifyAccount" component={VerifyAccount}></Route>
-        <Route exact path="/dashboard" component={Dashboard}></Route>
-        <Route exact path="/createProject" component={CreateProject}></Route>
-        <Route exact path="/projects/:id/tasks" component={TaskList}></Route>
-        <Route exact path="/projects/:id/createTask" component={CreateTask}></Route>
-        <Route exact path="/projects/:id/update" component={UpdateProject}></Route>
-        <Route exact path="/tasks/:id/update" component={UpdateTask}></Route>
-        <Route exact path="/tasks/db" component={TaskDB}></Route>
+        <ProtectedRoute exact path="/dashboard" component={Dashboard}></ProtectedRoute>
+        <ProtectedRoute exact path="/createProject" component={CreateProject}></ProtectedRoute>
+        <ProtectedRoute exact path="/projects/:id/tasks" component={TaskList}></ProtectedRoute>
+        <ProtectedRoute exact path="/projects/:id/createTask" component={CreateTask}></ProtectedRoute>
+        <ProtectedRoute exact path="/projects/:id/update" component={UpdateProject}></ProtectedRoute>
+        <ProtectedRoute exact path="/tasks/:id/update" component={UpdateTask}></ProtectedRoute>
+        <ProtectedRoute exact path="/tasks/db" component={TaskDB}></ProtectedRoute>
       </div>
     </BrowserRouter>
   );
