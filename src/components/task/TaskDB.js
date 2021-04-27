@@ -59,10 +59,12 @@ class TaskDB extends Component {
                                                  attachments={task.attachments} showOnly='true'></TaskItem>
                             })}
                         </div>
-                        <div className="col s3" id="sort_area">
-                            <a className="waves-effect blue-grey darken-1 btn-small left" id="sort_tasks" style={{ marginTop: "8px"}} onClick={this.onClickSorting}><i
-                                className="material-icons right">{this.state.sortParams.icon}</i>Sort by Summary</a>
-                        </div>
+                        {this.state.foundTasks.length !== 0 ?
+                            <div className="col s3" id="sort_area">
+                                <a className="waves-effect blue-grey darken-1 btn-small left" id="sort_tasks"
+                                   style={{marginTop: "8px"}} onClick={this.onClickSorting}><i
+                                    className="material-icons right">{this.state.sortParams.icon}</i>Sort by Summary</a>
+                            </div> : ""}
                     </div>
                 </div>
             </div>
